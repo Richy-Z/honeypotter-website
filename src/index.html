@@ -82,25 +82,29 @@
 		</div>
 	</section>
 
-	<script>
-		try {
-			const res = await fetch("https://honeypotter-api.richy.lol/v1/stats");
-			if (!res.ok) throw new Error();
+	<script defer>
+		async function hi() {
+			try {
+				const res = await fetch("https://honeypotter-api.richy.lol/v1/stats");
+				if (!res.ok) throw new Error();
 
-			const data = await res.json();
+				const data = await res.json();
 
-			document.getElementById("serversCount").textContent =
-				data.servers?.toLocaleString() ?? "?";
+				document.getElementById("serversCount").textContent =
+					data.servers?.toLocaleString() ?? "?";
 
-			document.getElementById("bannedCount").textContent =
-				data.total_blocked?.toLocaleString() ?? "?";
+				document.getElementById("bannedCount").textContent =
+					data.total_blocked?.toLocaleString() ?? "?";
 
-			document.getElementById("statsPanel").classList.remove("hidden");
-			document.getElementById("heroGrid").dataset.statsLoaded = "true";
+				document.getElementById("statsPanel").classList.remove("hidden");
+				document.getElementById("heroGrid").dataset.statsLoaded = "true";
 
-		} catch (err) {
-			console.error("stats unavailable");
+			} catch (err) {
+				console.error("stats unavailable");
+			}
 		}
+
+		hi();
 	</script>
 
 	<MainFooter></MainFooter>
