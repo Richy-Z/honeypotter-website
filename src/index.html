@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Honeypotter</title>
+
+	<style>
+		body {
+			font-family: "Nunito Sans", sans-serif;
+			background: #f6e7c8;
+			color: #1f1406;
+		}
+	</style>
+</head>
+
+<body>
+	<CommonHead></CommonHead>
+	<NavigationBar></NavigationBar>
+
+	<section class="min-h-screen flex items-center px-6 pt-24">
+		<div id="heroGrid" data-stats-loaded="false" class="
+					max-w-7xl mx-auto w-full grid gap-16 items-center justify-items-center
+					grid-cols-1
+					lg:data-[stats-loaded=true]:grid-cols-2
+					lg:data-[stats-loaded=true]:justify-items-stretch
+				">
+
+			<!-- left -->
+			<div>
+				<h1 class="text-5xl md:text-7xl leading-tight mb-6">
+					Compromised accounts go poof.
+				</h1>
+
+				<p class="text-lg md:text-xl text-black/75 leading-relaxed max-w-xl mb-8">
+					Most hacked Discord accounts don't inspect your server manually.
+					They run scripts that dump scam links into every channel they can access.
+					Honeypotter gives them one obvious trap, and bans them instantly.
+				</p>
+
+				<div class="flex flex-wrap gap-4">
+					<a href="https://discord.com/oauth2/authorize?client_id=1503447635346854019"
+						class="px-6 py-3 bg-black text-white border border-black hover:bg-transparent hover:text-black transition">
+						Add the bot
+					</a>
+
+					<a href="https://discord.gg/Hr3GYj7nsc"
+						class="px-6 py-3 border border-black hover:bg-black hover:text-white transition">
+						Support server
+					</a>
+				</div>
+			</div>
+
+			<!-- right -->
+			<div id="statsPanel" class="hidden grid gap-0 border border-black">
+
+				<div class="border-b border-black p-8 bg-white/30">
+					<p class="tracking-[0.2em] text-sm text-black/60 mb-3">
+						Servers protected
+					</p>
+
+					<h2 id="serversCount" class="text-6xl">
+						?
+					</h2>
+				</div>
+
+				<div class="p-8 bg-white/20">
+					<p class="tracking-[0.2em] text-sm text-black/60 mb-3">
+						Compromised accounts banned
+					</p>
+
+					<h2 id="bannedCount" class="text-6xl">
+						?
+					</h2>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		try {
+			const res = await fetch("https://honeypotter-api.richy.lol/v1/stats");
+			if (!res.ok) throw new Error();
+
+			const data = await res.json();
+
+			document.getElementById("serversCount").textContent =
+				data.servers?.toLocaleString() ?? "?";
+
+			document.getElementById("bannedCount").textContent =
+				data.total_blocked?.toLocaleString() ?? "?";
+
+			document.getElementById("statsPanel").classList.remove("hidden");
+			document.getElementById("heroGrid").dataset.statsLoaded = "true";
+
+		} catch (err) {
+			console.error("stats unavailable");
+		}
+	</script>
+
+	<MainFooter></MainFooter>
+</body>
+
+</html>

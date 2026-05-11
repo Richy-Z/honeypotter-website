@@ -1,0 +1,8 @@
+.idea
+
+sklair
+build
+
+# macOS files
+**._*
+**.DS_*
